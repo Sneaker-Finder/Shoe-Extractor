@@ -3,3 +3,9 @@ credentials.py
 
 #pytorch files
 *.pt
+
+#venv files
+.venv/
+
+#dataset files
+shoes_segmentation-5/

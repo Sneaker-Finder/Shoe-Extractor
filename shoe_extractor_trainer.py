@@ -3,6 +3,7 @@ from ultralytics import YOLO
 import matplotlib.pyplot as plt
 from PIL import Image
 import yaml
+from process_data import process
 
 def main():
     # Configurations for training
@@ -16,6 +17,9 @@ def main():
     TRAINED_MODELS_DIR = "trained_models"
     TRAINED_MODEL_NAME = "shoe-extractor-model-" + str(epochs) + "-epochs"
     DATA_YAML_PATH = os.path.join(DATASET_DIR, "data.yaml")
+
+    # Process training data
+    process(os.path.join(DATASET_DIR, "train"))
 
     # Load the number of classes from the data.yaml file
     with open(DATA_YAML_PATH) as data_file:
