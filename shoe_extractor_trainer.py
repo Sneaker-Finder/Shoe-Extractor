@@ -3,11 +3,11 @@ from ultralytics import YOLO
 import matplotlib.pyplot as plt
 from PIL import Image
 import yaml
-from process_data import process
+from pre_process_traning_data import process
 
 def main():
     # Configurations for training
-    epochs = 200
+    epochs = 400
     patience = 0
     batch = 4
     imgsz = 640
@@ -29,16 +29,15 @@ def main():
     model = YOLO("yolov8n-seg.yaml")
     model = YOLO('yolov8n-seg.pt')
     model = YOLO("yolov8n-seg.yaml").load("yolov8n.pt")
-    model.to('cuda') #this line of code may be commented out if you do not have a GPU, but change epochs to a very low number, painful wait
+    model.to('cuda') # comment out if no gpu
 
-    # Train the model
     results = model.train(data=DATA_YAML_PATH,
                         project=TRAINED_MODELS_DIR,
                         name=TRAINED_MODEL_NAME,
                         epochs=epochs,
-                        # patience=patience,
-                        batch=batch,
-                        imgsz=imgsz)
+                        patience=patience,
+                        imgsz=imgsz,
+                        batch=batch)
 
 if __name__ == '__main__':
     main()

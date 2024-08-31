@@ -15,15 +15,25 @@ def apply_masks_to_image(image_path, masks_tensor, output_path):
     masked_image.save(output_path, format="PNG")
 
 
-def crop_to_640(image_path, output_path):
+def crop_to_nbyn(image_path: str, output_path:str, n:int) -> bool:
+    """
+    Given a path to an image, 'image_path', it crops the image to 'n' by 'n' size,
+    and saves the cropped output to 'output_path'. If image is smaller than n by n, then return false. 
+    After successful crop, return true.
+    """
     image = Image.open(image_path)
     width, height = image.size
-    left = max((width - 640) // 2, 0)
-    upper = max((height - 640) // 2, 0)
-    right = min(left + 640, width)
-    lower = min(upper + 640, height)
+    if width < n or height < n: return False
+
+    left = max((width - n) // 2, 0)
+    upper = max((height - n) // 2, 0)
+    right = min(left + n, width)
+    lower = min(upper + n, height)
+
     cropped_image = image.crop((left, upper, right, lower))
     cropped_image.save(output_path)
+
+    return True
 
 
 def resize_and_pad(image_path, output_path, target_size=(640, 640)):
